@@ -1,5 +1,5 @@
 import { createContext, useState } from "react"
-import Modal from "../components/modal"
+import Modal from "../components/Modal/Modal"
 
 import React from 'react'
 

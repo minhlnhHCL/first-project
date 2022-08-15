@@ -1,33 +1,27 @@
-import axios from 'axios'
 import React, { lazy, Suspense } from 'react'
-import { DataContext, DataProvider } from './context/DataContext'
-import { DataReducer, initialState } from './context/DataReducer'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import { ModalProvider } from './context/ModalContext'
+import { Routes, Route } from 'react-router-dom'
 import { SpinnerProvider } from './context/SpinnerContext'
-import Spinner from './components/spinner'
-
-const List = lazy(() => import('./components/user/List'))
-const UserDetails = lazy(() => import('./components/user/id/UserDetails'))
+import Spinner from './components/Spinner/Spinner'
+import { Provider } from 'react-redux'
+import store from './store'
+import UserList from './components/user/UserList'
+// const UserList = lazy(() => import('./components/user/UserList'))
+const Modal = lazy(() => import('./components/Modal/Modal'))
 
 function App() {
   return (
-    <DataProvider initialState={initialState} reducer={DataReducer}>
+    <Provider store={store()}>
       <SpinnerProvider>
-        <ModalProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route exact path='/' element={<List />} />
-              <Route exact path='/users/:userId' element={<UserDetails />} />
-            </Routes>
-          </BrowserRouter>
-        </ModalProvider>
+        <Routes>
+          <Route exact path='/' element={<UserList />} />
+          <Route exact path='/edit' element={<Suspense fallback={<Spinner />}><Modal /></Suspense>} />
+        </Routes>
       </SpinnerProvider>
-    </DataProvider>
+    </Provider>
     // <BrowserRouter>
     //   <Routes>
     //     {/* <Route exact path='/' element={<Link to={'/users/1'}><button>testing</button></Link>} /> */}
-    //     <Route exact path='/' element={<Suspense fallback={<Spinner />}><List /></Suspense>} />
+    //     <Route exact path='/' element={<Suspense fallback={<Spinner />}><UserList /></Suspense>} />
     //     <Route exact path='/users/:userId' element={<Suspense fallback={<Spinner />}><UserDetails /></Suspense>} />
     //   </Routes>
     // </BrowserRouter>

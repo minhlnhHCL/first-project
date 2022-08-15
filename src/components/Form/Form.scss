@@ -10,7 +10,7 @@
     font-size: 0.875rem;
     color: rgba(92, 89, 89, 0.744);
     font-weight: 500;
-}   
+}
 
 .form-actions {
     position: absolute;
@@ -42,6 +42,12 @@
                 margin-right: 12px;
                 background: rgb(103, 168, 203);
                 color: #fff;
+
+                &:disabled {
+                    border: 1px solid #999999;
+                    background-color: #cccccc;
+                    color: #666666;
+                }
             }
         }
     }

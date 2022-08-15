@@ -41,6 +41,7 @@ export const editCurrentUser = (user) => ({
 export const DataReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_USER:
+            // if(state.users.length !==0 ) return { ...state, users: [...state.users, action.users]}
             state.users = action.users
             return state
         case ADD_USER:
@@ -59,6 +60,7 @@ export const DataReducer = (state = initialState, action) => {
                 const index = state.users.findIndex(el => el.id == action.user.id);
                 const newUserArr = [...state.users]
                 newUserArr[index] = action.user
+                console.log('edit user', newUserArr)
                 return { ...state, users: newUserArr }
             }
         case CURRENT_USER:
