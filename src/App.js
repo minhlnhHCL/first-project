@@ -5,7 +5,6 @@ import Spinner from './components/Spinner/Spinner'
 import { Provider } from 'react-redux'
 import store from './store'
 import UserList from './components/user/UserList'
-// const UserList = lazy(() => import('./components/user/UserList'))
 const Modal = lazy(() => import('./components/Modal/Modal'))
 
 function App() {
@@ -18,13 +17,6 @@ function App() {
         </Routes>
       </SpinnerProvider>
     </Provider>
-    // <BrowserRouter>
-    //   <Routes>
-    //     {/* <Route exact path='/' element={<Link to={'/users/1'}><button>testing</button></Link>} /> */}
-    //     <Route exact path='/' element={<Suspense fallback={<Spinner />}><UserList /></Suspense>} />
-    //     <Route exact path='/users/:userId' element={<Suspense fallback={<Spinner />}><UserDetails /></Suspense>} />
-    //   </Routes>
-    // </BrowserRouter>
   )
 }
 

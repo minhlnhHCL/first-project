@@ -22,7 +22,7 @@ export const initialState = {
 
 export const userSLice = createSlice({
     name: 'users',
-   initialState,
+    initialState,
     reducers: {
         getUsers: (state, action) => {
             if (state.users.length == 1) {
@@ -34,7 +34,10 @@ export const userSLice = createSlice({
         },
         addUser: (state, action) => {
             const index = state.users.findIndex(el => el.id == action.payload.id);
+            console.log('index', index)
+
             if (index == -1) {
+                console.log('vo day')
                 state.users = [action.payload, ...state.users]
                 return state
             }

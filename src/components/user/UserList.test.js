@@ -1,12 +1,11 @@
-import axios from "axios"
-import reducer, { getUsers } from "../../store/userSlice"
-import { renderWithRedux, screen } from "../../test-utils"
-import { fetchData } from "../utils/fetchData"
+import { renderWithRedux } from "../../test-utils"
 import UserList from "./UserList"
-import { useDispatch, useSelector } from "react-redux";
-import { waitFor } from '@testing-library/react';
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { cleanup, waitFor } from '@testing-library/react'
+import { baseUrl, get } from "../utils/api-requests"
 
-const sampleUser = [{
+const sampleUsers = [{
     id: 1,
     firstName: "Minh",
     lastName: "Luong",
@@ -16,7 +15,7 @@ const sampleUser = [{
         title: "Front End Engineer",
     },
 }, {
-    id: 1,
+    id: 2,
     firstName: "Min",
     lastName: "Min",
     image: 'https://robohash.org/hicveldicta.png',
@@ -27,55 +26,47 @@ const sampleUser = [{
 }]
 
 
-// jest.mock('axios')
+jest.mock('../utils/api-requests')
 
 jest.mock("react-redux", () => ({
     ...jest.requireActual("react-redux"),
     useSelector: jest.fn(),
     useDispatch: jest.fn(),
-}));
+}))
 
-
-
-let getSpySuccess
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: jest.fn(),
+}))
 
 describe('User List', () => {
-    beforeAll(() => {
-        jest.spyOn(axios, 'get').mockImplementation(() => {
-            return new Promise((resolve, reject) => {
-                return resolve({
-                    data: {
-                        users: [...sampleUser]
-                    }
-                });
-            });
-        });
-        useDispatch.mockReturnValue(() => { });
-        useSelector.mockReturnValue({
-            users: []
-        });
-
-    })
-    it('should run its side effect and be rendered', async () => {
-        // expect(getSpySuccess).toHaveBeenCalledTimes(1);
-        // expect(getSpySuccess).toBeCalledWith(
-        //     'https://dummyjson.com/users'
-        // );
-        const { container } = renderWithRedux(<UserList />, {
-            preloadedState: {
-                users: [...sampleUser]
+    beforeEach(() => {
+        useDispatch.mockImplementation(() => jest.fn())
+        useNavigate.mockReturnValue(() => { })
+        useSelector.mockImplementation(callback => callback({ users: [] }))
+        get.mockResolvedValue({
+            data: {
+                users: []
             }
         })
-        // expect(useDispatch).toHaveBeenCalledTimes(1);
-        expect(container).toMatchSnapshot();
-        // const dispatch = jest.fn();
-        // const getUsers = jest.fn()
-        // useDispatch.mockReturnValue(dispatch);
-        // await waitFor(() => expect(getUsers).toBeCalled());
-        // expect(dispatch).toBeCalled()
-        // expect(dispatch).toBeCalledWith(
-        //     sampleUser
-        // );
+    })
+
+    afterAll(cleanup)
+
+    it('should run its side effect', async () => {
+        const onLoading = jest.fn()
+        const offLoading = jest.fn()
+        get.mockResolvedValueOnce({
+            data: {
+                users: [...sampleUsers]
+            }
+        })
+        const { container } = renderWithRedux(<UserList />, { offLoading, onLoading })
+        await waitFor(() => expect(onLoading).toBeCalled())
+        expect(useDispatch).toBeCalled()
+
+        await waitFor(() => expect(offLoading).toBeCalled())
+        expect(container).toMatchSnapshot()
 
     })
 })

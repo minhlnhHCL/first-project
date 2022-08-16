@@ -1,22 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import './UserList.scss'
 import UserWrapper from './UserWrapper/UserWrapper'
-import { fetchData } from '../utils/fetchData'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 import { getUsers, setCurrentUser } from '../../store/userSlice'
 import { useContext } from 'react'
 import { SpinnerContext } from '../../context/SpinnerContext'
-import axios from 'axios'
-
-const resource = fetchData('https://dummyjson.com/users')
+import { useAppDispatch, useAppSelector } from '../../store'
+import { get } from '../utils/api-requests'
 
 const UserList = () => {
-    const { users } = useSelector(state => state.users)
+    const { users } = useAppSelector(state => state.users)
     const { onLoading, offLoading } = useContext(SpinnerContext)
-    const dispatch = useDispatch()
-    const data = resource.read()
-    const [, setActive] = useState(false)
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
 
@@ -24,10 +19,10 @@ const UserList = () => {
         onLoading()
         const getData = async () => {
             try {
-                const res = await axios.get('https://dummyjson.com/users')
-                if (res.status == 200) {
-                    if (users.length == 0 || users.length == 1) {
-                        return dispatch(getUsers(data.users))
+                if (users.length === 0 || users.length === 1) {
+                    const res = await get()
+                    if (res.status === 200) {
+                        return dispatch(getUsers(res.data.users))
                     }
                 }
             } catch (error) {
@@ -37,13 +32,8 @@ const UserList = () => {
             }
         }
         getData()
-        // if (reduxState.users.length == 0 || reduxState.users.length == 1) {
-        //     setActive(true)
-        //     dispatch(getUsers(data.users))
-        // } else {
-        //     setActive(false)
-        // }
     }, [users])
+
     return (
         <div className='list-container mt-32'>
             <button className='btn-create' onClick={() => {
@@ -52,7 +42,7 @@ const UserList = () => {
             }}>Create New User</button>
             <div className='list-wrapper'>
                 {
-                    users.map((item, idx) => (
+                    users !== undefined && users.length !== 0 && users.map((item, idx) => (
                         <UserWrapper key={`${item.id}-${idx}`} data={item} />
                     ))
                 }

@@ -24,14 +24,16 @@ export const renderWithRedux = (
         preloadedState = {},
         // Automatically create a store instance if no store was passed in
         store = setupStore(preloadedState),
+        onLoading = () => { },
+        offLoading = () => { },
         ...renderOptions
     } = {}
 ) => {
     const Wrapper = ({ children }) => {
         return (
             <Provider store={store}>
-                <SpinnerProvider value={SpinnerContext}>
-                    {children}</SpinnerProvider>
+                <SpinnerContext.Provider value={{ onLoading, offLoading }}>
+                    {children}</SpinnerContext.Provider>
             </Provider>
         )
     }

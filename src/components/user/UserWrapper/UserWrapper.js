@@ -1,19 +1,19 @@
 import './UserWrapper.scss'
 import { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import { SpinnerContext } from '../../../context/SpinnerContext'
 import { deleteUser, setCurrentUser } from '../../../store/userSlice'
-import {useDispatch} from 'react-redux'
+import { useAppDispatch } from '../../../store'
+import { deleteReq } from '../../utils/api-requests'
+
 const UserWrapper = ({ data }) => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()  
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const { onLoading, offLoading } = useContext(SpinnerContext)
   const deleteHandler = async () => {
-    console.log(data.id)
     try {
       onLoading()
-      const req = await axios.delete(`https://dummyjson.com/users/${data.id}`)
+      const req = await deleteReq(`/${data.id}`)
       if (req.status == 200) {
         return dispatch(deleteUser(data))
       }

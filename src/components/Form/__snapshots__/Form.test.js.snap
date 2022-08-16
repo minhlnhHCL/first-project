@@ -1,5 +1,86 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`User Form should display an empty form 1`] = `
+<div>
+  <form>
+    <div
+      class="d-flex-ac"
+    >
+      <label
+        class="custom-label"
+        for="firstName"
+      >
+        First Name
+      </label>
+      <input
+        class="custom-input "
+        id="firstName"
+        name="firstName"
+        placeholder="First Name"
+        value=""
+      />
+    </div>
+    <div
+      class="d-flex-ac mt-32"
+    >
+      <label
+        class="custom-label"
+        for="lastName"
+      >
+        Last Name
+      </label>
+      <input
+        class="custom-input"
+        id="lastName"
+        name="lastName"
+        placeholder="Last Name"
+        value=""
+      />
+    </div>
+    <div
+      class="d-flex-ac mt-32"
+    >
+      <label
+        class="custom-label"
+        for="companyTitle"
+      >
+        Company title
+      </label>
+      <input
+        class="custom-input"
+        id="companyTitle"
+        name="companyTitle"
+        placeholder="Company Title"
+        value=""
+      />
+    </div>
+    <div
+      class="form-actions"
+    >
+      <div
+        class="action-container"
+      >
+        <button
+          class="btn cancel"
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          aria-label="submit"
+          class="btn submit"
+          disabled=""
+          name="btn-submit"
+          type="submit"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+`;
+
 exports[`User Form should display empty form for new user 1`] = `
 <div>
   <form>
@@ -8,8 +89,9 @@ exports[`User Form should display empty form for new user 1`] = `
     >
       <label
         class="custom-label"
+        for="firstName"
       >
-        First Name: 
+        First Name
       </label>
       <input
         class="custom-input "
@@ -23,8 +105,9 @@ exports[`User Form should display empty form for new user 1`] = `
     >
       <label
         class="custom-label"
+        for="lastName"
       >
-        Last Name: 
+        Last Name
       </label>
       <input
         class="custom-input"
@@ -38,8 +121,9 @@ exports[`User Form should display empty form for new user 1`] = `
     >
       <label
         class="custom-label"
+        for="companyTitle"
       >
-        Last Name: 
+        Company title
       </label>
       <input
         class="custom-input"
