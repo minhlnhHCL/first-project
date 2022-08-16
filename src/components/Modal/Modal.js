@@ -3,9 +3,11 @@ import Form from '../Form/Form'
 import { useDispatch, useSelector } from 'react-redux'
 import './Modal.scss'
 import { setCurrentUser } from '../../store/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Modal = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { currentUser } = useSelector(state => state.users)
   return (
     <>
@@ -17,6 +19,7 @@ const Modal = () => {
                 <h3>{currentUser.id ? 'Edit Current User' : 'Create New User'}</h3>
                 <button className='btn-close' onClick={() => {
                   dispatch(setCurrentUser({ firstName: '', lastName: '', age: 0, id: 0, company: { title: '' } }))
+                  navigate('/')
                 }}>X</button>
               </div>
             </div>
