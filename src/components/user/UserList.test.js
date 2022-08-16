@@ -43,7 +43,7 @@ describe('User List', () => {
     beforeEach(() => {
         useDispatch.mockImplementation(() => jest.fn())
         useNavigate.mockReturnValue(() => { })
-        useSelector.mockImplementation(callback => callback({ users: [] }))
+        useSelector.mockImplementation(() => {})
         get.mockResolvedValue({
             data: {
                 users: []
@@ -56,12 +56,16 @@ describe('User List', () => {
     it('should run its side effect', async () => {
         const onLoading = jest.fn()
         const offLoading = jest.fn()
+        useSelector.mockReturnValue({
+            users: []
+        })
         get.mockResolvedValueOnce({
             data: {
-                users: [...sampleUsers]
+                users: sampleUsers
             }
         })
         const { container } = renderWithRedux(<UserList />, { offLoading, onLoading })
+        expect(get).toBeCalled()
         await waitFor(() => expect(onLoading).toBeCalled())
         expect(useDispatch).toBeCalled()
 
